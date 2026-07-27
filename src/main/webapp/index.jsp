@@ -38,7 +38,7 @@
 		<div class="progress mb-4" style="height: 25px;">
 			<div
 				class="progress-bar progress-bar-striped progress-bar-animated bg-success fw-bold"
-				role="progressbar" style="width: 60%;" aria-valuenow="60"
+				role="progressbar" style="width: 0%;" aria-valuenow="0"
 				aria-valuemin="0" aria-valuemax="100">アンケート入力率: 60%</div>
 		</div>
 
@@ -51,77 +51,88 @@
 		<!-- 名前や職業などの入力部分 -->
 		<div class="card shadow-sm text-start">
 			<div class="card-body p-4">
-				<form>
+
+				<!-- formに action と method を追加 -->
+				<form action="survey" method="post">
+					
+					<!-- お名前 -->
 					<div class="mb-3">
 						<label for="userName" class="form-label fw-bold"> お名前 <span
 							class="badge bg-danger">必須</span>
-						</label> <input type="text" class="form-control" id="userName"
+						</label> 
+						<!-- name="userName" を追加 -->
+						<input type="text" class="form-control" id="userName" name="userName"
 							placeholder="山田 太郎">
 					</div>
 
+					<!-- ご職業 -->
 					<div class="mb-3">
-						<label for="userJob" class="form-label fw-bold">ご職業</label> <select
-							class="form-select" id="userJob">
-							<option selected>選択してください</option>
+						<label for="userJob" class="form-label fw-bold">ご職業</label> 
+						<!-- name="userJob" を追加 -->
+						<select class="form-select" id="userJob" name="userJob">
+							<option value="" selected>選択してください</option>
 							<option value="1">学生</option>
 							<option value="2">社会人</option>
 							<option value="3">その他</option>
 						</select>
 					</div>
 
-					<!-- 知りたい内容と理解度 -->
+					<!-- 知りたい内容（複数選択） -->
 					<div class="mb-4">
 						<label class="form-label fw-bold">知りたい内容（複数回答可）</label>
 
+						<!-- すべて name="topics" とそれぞれの value 属性を整理 -->
 						<div class="form-check form-switch mb-2">
-							<input class="form-check-input" type="checkbox" id="checkHtml">
+							<input class="form-check-input" type="checkbox" id="checkHtml" name="topics" value="html">
 							<label class="form-check-label" for="checkHtml">HTML5 /
 								新標準マニアック構造</label>
 						</div>
 
 						<div class="form-check form-switch mb-2">
-							<input class="form-check-input" type="checkbox" id="checkCss">
+							<input class="form-check-input" type="checkbox" id="checkCss" name="topics" value="css">
 							<label class="form-check-label" for="checkCss">CSS3 /
 								Flexbox・グリッドレイアウト</label>
 						</div>
 
 						<div class="form-check form-switch mb-2">
-							<input class="form-check-input" type="checkbox" id="checkJs">
+							<input class="form-check-input" type="checkbox" id="checkJs" name="topics" value="js">
 							<label class="form-check-label" for="checkJs">JavaScript
 								/ 5系連動モダンコーディング</label>
 						</div>
 					</div>
 
+					<!-- 理解度（単一選択） -->
 					<div class="mb-3">
 						<label class="form-label fw-bold text-danger">理解度はいかがですか？</label>
 
+						<!-- name="understanding" とそれぞれの value 属性を整理 -->
 						<div class="bg-light p-3 rounded">
 							<div class="row g-2">
 								<div class="col-6">
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
-											name="understanding" id="radio1"> <label
+											name="understanding" id="radio1" value="1"> <label
 											class="form-check-label" for="radio1">😣 理解できなかった</label>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
-											name="understanding" id="radio2"> <label
+											name="understanding" id="radio2" value="2"> <label
 											class="form-check-label" for="radio2">🤔 だいたい理解できた</label>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
-											name="understanding" id="radio3"> <label
+											name="understanding" id="radio3" value="3"> <label
 											class="form-check-label" for="radio3">😊 理解できた</label>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
-											name="understanding" id="radio4" checked> <label
+											name="understanding" id="radio4" value="0" checked> <label
 											class="form-check-label" for="radio4">🟢 回答しない</label>
 									</div>
 								</div>
@@ -129,12 +140,15 @@
 						</div>
 					</div>
 
+					<!-- ご意見欄 -->
 					<div class="mb-4">
 						<label for="userComment" class="form-label fw-bold">ご意見・お気づきの点</label>
-						<textarea class="form-control" id="userComment" rows="4"
+						<!-- name="userComment" を追加 -->
+						<textarea class="form-control" id="userComment" name="userComment" rows="4"
 							placeholder="ここが分かりやすかった！など自由にご記入ください。"></textarea>
 					</div>
 
+					<!-- 送信ボタン -->
 					<div class="d-grid">
 						<button type="submit" class="btn btn-primary fw-bold text-white">
 							🚀 輝く未来へアンケートを送信する</button>
@@ -159,7 +173,7 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 		
-	<!-- 独自JavaScriptの読み込み（外部ファイル化） -->
+	<!-- 独自JavaScriptの読み込み -->
 	<script src="js/script.js"></script>
 			
 </body>
