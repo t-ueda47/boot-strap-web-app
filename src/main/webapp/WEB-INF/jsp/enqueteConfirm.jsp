@@ -1,174 +1,182 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// スコープからのデータ取得
+	String userName = (String) request.getAttribute("userName");
+	String userEmail = (String) request.getAttribute("userEmail");
+	String userPassword = (String) request.getAttribute("userPassword");
+	String userJob = (String) request.getAttribute("userJob");
+	String[] topics = (String[]) request.getAttribute("topics");
+	String understanding = (String) request.getAttribute("understanding");
+	String userComment = (String) request.getAttribute("userComment");
+%>
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>アンケート内容確認</title>
-
+<title>アンケート確認画面</title>
 <!-- Bootstrap 5 CSS -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-
-<!-- Bootswatch Morph テーマ -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/morph/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+<body class="bg-light">
 
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-		<div class="container">
-			<span class="navbar-brand fw-bold">🎓 IT School Special Form</span>
+	<div class="container py-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-7">
+				
+				<!-- メインカード -->
+				<div class="card shadow-lg border-0 rounded-3">
+					
+					<!-- カードヘッダー -->
+					<div class="card-header bg-primary text-white text-center py-3 rounded-top">
+						<h3 class="card-title fw-bold m-0">
+							<i class="bi bi-check2-square me-2"></i>入力内容の確認
+						</h3>
+					</div>
 
-			<div class="ms-auto">
-				<a href="index.html" class="btn btn-secondary btn-sm fw-bold">HOME へ戻る</a>
-			</div>
-		</div>
-	</nav>
+					<!-- カードボディ -->
+					<div class="card-body p-4">
+						<p class="text-secondary text-center mb-4">
+							以下の内容で送信します。入力内容をご確認の上、「送信する」ボタンを押してください。
+						</p>
 
-	<!-- 見出し -->
-	<div class="text-center my-4">
-		<h1 class="text-primary fw-bold">ご入力内容の確認</h1>
-		<p class="text-muted">Please confirm your entry</p>
-	</div>
+						<!-- 確認テーブル -->
+						<div class="table-responsive">
+							<table class="table table-hover table-striped align-middle border">
+								<tbody>
+									<!-- 1. お名前 -->
+									<tr>
+										<th style="width: 35%;" class="bg-light fw-bold text-secondary">
+											<i class="bi bi-person-fill me-2 text-primary"></i>お名前
+										</th>
+										<td class="fw-semibold text-dark"><%= userName %></td>
+									</tr>
 
-	<!-- メインコンテンツ -->
-	<div class="container text-center justify-content-center"
-		style="max-width: 700px;">
+									<!-- 2. メールアドレス -->
+									<tr>
+										<th class="bg-light fw-bold text-secondary">
+											<i class="bi bi-envelope-fill me-2 text-primary"></i>メールアドレス
+										</th>
+										<td class="fw-semibold text-dark"><%= userEmail %></td>
+									</tr>
 
-		<div class="card shadow-sm text-start mb-4">
-			<div class="card-body p-4">
-				<h4 class="card-title text-primary fw-bold mb-4">📋 入力内容一覧</h4>
+									<!-- 3. パスワード -->
+									<tr>
+										<th class="bg-light fw-bold text-secondary">
+											<i class="bi bi-lock-fill me-2 text-primary"></i>パスワード
+										</th>
+										<td>
+											<span class="badge bg-secondary font-monospace fs-6 px-3 py-2">●●●●●●●●</span>
+										</td>
+									</tr>
 
-				<table class="table table-bordered align-middle">
-					<tbody>
-						<!-- 1. お名前 -->
-						<tr>
-							<th style="width: 30%;" class="bg-light fw-bold">お名前</th>
-							<td>
-								<% 
-									String userName = (String) request.getAttribute("userName");
-									if (userName != null && !userName.trim().isEmpty()) {
-								%>
-									<%= userName %>
-								<% } else { %>
-									<span class="text-muted">（未入力）</span>
-								<% } %>
-							</td>
-						</tr>
+									<!-- 4. ご職業 -->
+									<tr>
+										<th class="bg-light fw-bold text-secondary">
+											<i class="bi bi-briefcase-fill me-2 text-primary"></i>ご職業
+										</th>
+										<td class="fw-semibold">
+											<%
+												if ("1".equals(userJob)) { %>会社員<% }
+												else if ("2".equals(userJob)) { %>自営業<% }
+												else if ("3".equals(userJob)) { %>学生<% }
+												else if ("4".equals(userJob)) { %>その他<% }
+												else { out.print(userJob); }
+											%>
+										</td>
+									</tr>
 
-						<!-- 2. ご職業 -->
-						<tr>
-							<th class="bg-light fw-bold">ご職業</th>
-							<td>
-								<%
-									String userJob = (String) request.getAttribute("userJob");
-									if ("1".equals(userJob)) {
-								%>学生<% 
-									} else if ("2".equals(userJob)) {
-								%>社会人<% 
-									} else if ("3".equals(userJob)) {
-								%>その他<% 
-									} else {
-								%><span class="text-muted">（未選択）</span><% 
-									} 
-								%>
-							</td>
-						</tr>
+									<!-- 5. 興味のあるトピック -->
+									<tr>
+										<th class="bg-light fw-bold text-secondary">
+											<i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>トピック
+										</th>
+										<td class="fw-semibold">
+											<%
+												if (topics != null && topics.length > 0) {
+													out.print(String.join(", ", topics));
+												} else {
+													out.print("なし");
+												}
+											%>
+										</td>
+									</tr>
 
-						<!-- 3. 知りたい内容 -->
-						<tr>
-							<th class="bg-light fw-bold">知りたい内容</th>
-							<td>
-								<%
-									String[] topics = (String[]) request.getAttribute("topics");
-									if (topics != null && topics.length > 0) {
-								%>
-									<ul class="mb-0 ps-3">
-									<% for (String topic : topics) { %>
-										<li>
-											<% if ("html".equals(topic)) { %>HTML5 / 新標準マニアック構造
-											<% } else if ("css".equals(topic)) { %>CSS3 / Flexbox・グリッドレイアウト
-											<% } else if ("js".equals(topic)) { %>JavaScript / 5系連動モダンコーディング
-											<% } else { %><%= topic %><% } %>
-										</li>
-									<% } %>
-									</ul>
-								<% } else { %>
-									<span class="text-muted">（選択なし）</span>
-								<% } %>
-							</td>
-						</tr>
+									<!-- 6. 理解度 -->
+									<tr>
+										<th class="bg-light fw-bold text-secondary">
+											<i class="bi bi-emoji-smile-fill me-2 text-primary"></i>理解度
+										</th>
+										<td class="fw-semibold">
+											<%
+												if ("1".equals(understanding)) { %>
+													<span class="badge bg-danger-subtle text-danger border border-danger px-3 py-2">😣 理解できなかった</span>
+												<% } else if ("2".equals(understanding)) { %>
+													<span class="badge bg-warning-subtle text-warning-emphasis border border-warning px-3 py-2">🤔 だいたい理解できた</span>
+												<% } else if ("3".equals(understanding)) { %>
+													<span class="badge bg-success-subtle text-success border border-success px-3 py-2">😊 よく理解できた</span>
+												<% } else {
+													out.print(understanding);
+												}
+											%>
+										</td>
+									</tr>
 
-						<!-- 4. 理解度 -->
-						<tr>
-							<th class="bg-light fw-bold">理解度</th>
-							<td>
-								<%
-									String understanding = (String) request.getAttribute("understanding");
-									if ("1".equals(understanding)) {
-								%>😣 理解できなかった<% 
-									} else if ("2".equals(understanding)) {
-								%>🤔 だいたい理解できた<% 
-									} else if ("3".equals(understanding)) {
-								%>😊 理解できた<% 
-									} else {
-								%><span class="text-muted">🟢 回答しない</span><% 
-									} 
-								%>
-							</td>
-						</tr>
+									<!-- 7. ご意見・ご要望 -->
+									<tr>
+										<th class="bg-light fw-bold text-secondary">
+											<i class="bi bi-chat-left-text-fill me-2 text-primary"></i>ご意見・ご要望
+										</th>
+										<td class="text-break">
+											<%
+												if (userComment != null) {
+													out.print(userComment.replace("\n", "<br>"));
+												}
+											%>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-						<!-- 5. ご意見・お気づきの点 -->
-						<tr>
-							<th class="bg-light fw-bold">ご意見・お気づきの点</th>
-							<td>
-								<%
-									String userComment = (String) request.getAttribute("userComment");
-									if (userComment != null && !userComment.trim().isEmpty()) {
-								%>
-									<div style="white-space: pre-wrap;"><%= userComment %></div>
-								<% } else { %>
-									<span class="text-muted">（なし）</span>
-								<% } %>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+						<!-- アクションボタンエリア -->
+						<div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+							<button type="button" class="btn btn-outline-secondary btn-lg px-4" onclick="history.back()">
+								<i class="bi bi-arrow-left me-2"></i>修正する
+							</button>
 
-				<!-- ボタン領域 -->
-				<div class="d-flex justify-content-between mt-4">
-					<button type="button" class="btn btn-outline-secondary fw-bold" onclick="history.back()">
-						⬅ 入力画面へ戻る
-					</button>
+							<!-- DB登録用サーブレットへ隠しデータ（hidden）として受け渡す -->
+							<form action="PostEnqueteServlet" method="post" class="m-0">
+								<input type="hidden" name="userName" value="<%= userName %>">
+								<input type="hidden" name="userEmail" value="<%= userEmail %>">
+								<input type="hidden" name="userPassword" value="<%= userPassword %>">
+								<input type="hidden" name="userJob" value="<%= userJob %>">
+								
+								<% if (topics != null) { 
+									for (String t : topics) { %>
+										<input type="hidden" name="topics" value="<%= t %>">
+								<% 	} 
+								} %>
+								
+								<input type="hidden" name="understanding" value="<%= understanding %>">
+								<input type="hidden" name="userComment" value="<%= userComment %>">
 
-					<form action="EnqueteComplete" method="post">
-						<button type="submit" class="btn btn-primary fw-bold text-white">
-							送信を確定する 🚀
-						</button>
-					</form>
+								<button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+									送信する<i class="bi bi-send-fill ms-2"></i>
+								</button>
+							</form>
+						</div>
+
+					</div>
 				</div>
 
 			</div>
 		</div>
-
 	</div>
 
-	<!-- フッター -->
-	<footer class="bg-dark text-white text-center py-4 mt-5">
-		<div class="container">
-			<p class="m-0 small opacity-75">&copy; H2O space - Creative Web Design Seminar 2026</p>
-		</div>
-	</footer>
-
-	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
+	<!-- Bootstrap 5 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

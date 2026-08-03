@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	// エラー発生時の入力値の復元処理（nullの場合は空文字に変換）
+	String errorMessage = (String) request.getAttribute("errorMessage");
+	String userName = request.getAttribute("userName") != null ? (String) request.getAttribute("userName") : "";
+	String userEmail = request.getAttribute("userEmail") != null ? (String) request.getAttribute("userEmail") : "";
+%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -51,27 +57,29 @@
 				この度は、本書をご利用頂きありがとうございます。恐れ入りますが、以下のフォームにご記入頂き、送信して頂けると幸いです。</p>
 		</div>
 
-		<!-- エラーメッセージ表示エリア -->
-		<div id="errorAlert" class="alert alert-danger text-start d-none mb-4" role="alert">
-			<strong>⚠️ 未入力の項目があります：</strong>
-			<ul id="errorList" class="mb-0 mt-2"></ul>
-		</div>
-
 		<div class="card shadow-sm text-start">
 			<div class="card-body p-4">
+
+				<%-- エラーメッセージが存在する場合のみ赤色のアラートを表示 --%>
+				<% if (errorMessage != null) { %>
+					<div class="alert alert-danger shadow-sm mb-4 fw-bold" role="alert">
+						⚠️ <%= errorMessage %>
+					</div>
+				<% } %>
+
 				<form id="enqueteForm" action="EnqueteForm" method="post">
 					<!-- お名前 -->
 					<div class="mb-3">
 						<label for="userName" class="form-label fw-bold">お名前</label>
 						<input type="text" class="form-control" id="userName" name="userName"
-							placeholder="山田 太郎">
+							placeholder="山田 太郎" value="<%= userName %>">
 					</div>
 
 					<!-- メールアドレス -->
 					<div class="mb-3">
 						<label for="userEmail" class="form-label fw-bold">メールアドレス</label>
 						<input type="email" class="form-control" id="userEmail" name="userEmail"
-							placeholder="example@example.com">
+							placeholder="example@example.com" value="<%= userEmail %>">
 					</div>
 
 					<!-- パスワード -->
