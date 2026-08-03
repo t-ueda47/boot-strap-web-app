@@ -23,7 +23,7 @@
 			<span class="navbar-brand fw-bold">🎓 IT School Special Form</span>
 
 			<div class="ms-auto">
-				<a href="/" class="btn btn-secondary btn-sm fw-bold">HOME へ戻る</a>
+				<a href="index.html" class="btn btn-secondary btn-sm fw-bold">HOME へ戻る</a>
 			</div>
 		</div>
 	</nav>
@@ -39,10 +39,10 @@
 		style="max-width: 700px;">
 
 		<div class="progress mb-4" style="height: 25px;">
-			<div
+			<div id="progressBar"
 				class="progress-bar progress-bar-striped progress-bar-animated bg-success fw-bold"
-				role="progressbar" style="width: 60%;" aria-valuenow="60"
-				aria-valuemin="0" aria-valuemax="100">アンケート入力率: 60%</div>
+				role="progressbar" style="width: 0%;" aria-valuenow="0"
+				aria-valuemin="0" aria-valuemax="100">アンケート入力率: 0%</div>
 		</div>
 
 		<div class="alert alert-light text-start shadow-sm mb-4" role="alert">
@@ -51,19 +51,40 @@
 				この度は、本書をご利用頂きありがとうございます。恐れ入りますが、以下のフォームにご記入頂き、送信して頂けると幸いです。</p>
 		</div>
 
+		<!-- エラーメッセージ表示エリア -->
+		<div id="errorAlert" class="alert alert-danger text-start d-none mb-4" role="alert">
+			<strong>⚠️ 未入力の項目があります：</strong>
+			<ul id="errorList" class="mb-0 mt-2"></ul>
+		</div>
+
 		<div class="card shadow-sm text-start">
 			<div class="card-body p-4">
-				<form>
+				<form id="enqueteForm" action="EnqueteForm" method="post">
+					<!-- お名前 -->
 					<div class="mb-3">
-						<label for="userName" class="form-label fw-bold"> お名前 <span
-							class="badge bg-danger">必須</span>
-						</label> <input type="text" class="form-control" id="userName"
+						<label for="userName" class="form-label fw-bold">お名前</label>
+						<input type="text" class="form-control" id="userName" name="userName"
 							placeholder="山田 太郎">
 					</div>
 
+					<!-- メールアドレス -->
 					<div class="mb-3">
-						<label for="userJob" class="form-label fw-bold">ご職業</label> <select
-							class="form-select" id="userJob">
+						<label for="userEmail" class="form-label fw-bold">メールアドレス</label>
+						<input type="email" class="form-control" id="userEmail" name="userEmail"
+							placeholder="example@example.com">
+					</div>
+
+					<!-- パスワード -->
+					<div class="mb-3">
+						<label for="userPassword" class="form-label fw-bold">パスワード</label>
+						<input type="password" class="form-control" id="userPassword" name="userPassword"
+							placeholder="パスワードを入力してください">
+					</div>
+
+					<!-- ご職業 -->
+					<div class="mb-3">
+						<label for="userJob" class="form-label fw-bold">ご職業</label>
+						<select class="form-select" id="userJob" name="userJob">
 							<option value="" selected>選択してください</option>
 							<option value="1">学生</option>
 							<option value="2">社会人</option>
@@ -74,7 +95,6 @@
 					<div class="mb-4">
 						<label class="form-label fw-bold">知りたい内容（複数回答可）</label>
 
-						<!-- name="topics" を統一し、それぞれの value を設定 -->
 						<div class="form-check form-switch mb-2">
 							<input class="form-check-input" type="checkbox" id="checkHtml"
 								name="topics" value="html"> <label
@@ -102,7 +122,6 @@
 
 						<div class="bg-light p-3 rounded">
 							<div class="row g-2">
-								<!-- それぞれに送信/JS用の value 値を付与 -->
 								<div class="col-6">
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
@@ -127,7 +146,7 @@
 								<div class="col-6">
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
-											name="understanding" id="radio4" value="0" checked> <label
+											name="understanding" id="radio4" value="0"> <label
 											class="form-check-label" for="radio4">🟢 回答しない</label>
 									</div>
 								</div>
@@ -137,13 +156,11 @@
 
 					<div class="mb-4">
 						<label for="userComment" class="form-label fw-bold">ご意見・お気づきの点</label>
-						<!-- サーブレット受け取り用に name 属性を付与 -->
 						<textarea class="form-control" id="userComment" name="userComment"
 							rows="4" placeholder="ここが分かりやすかった！など自由にご記入ください。"></textarea>
 					</div>
 
 					<div class="d-grid">
-						<!-- 最初から type="submit" のまま配置 -->
 						<button type="submit" class="btn btn-primary fw-bold text-white">
 							🚀 輝く未来へアンケートを送信する</button>
 					</div>
